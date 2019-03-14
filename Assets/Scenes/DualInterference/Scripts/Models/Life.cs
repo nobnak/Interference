@@ -4,37 +4,21 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 public class Life : MonoBehaviour {
-
-    public enum ModelType { Quad, Circle, Triangle, Cross }
-    public enum TextureType { Cyan, Magenta, Yellow }
-
     public const string PROP_MAIN_TEX = "_MainTex";
     public const string PROP_ALPHA_TEX = "_AlphaTex";
 
-    [SerializeField]
-    protected ModelType model;
-    [SerializeField]
-    protected TextureType tex;
+    protected Species key;
 
     protected bool validated = false;
     protected MaterialPropertyBlock block;
 
     #region interface
-    public ModelType CurrentModel {
-        get { return model; }
+    public Species CurrentKey {
+        get { return key; }
         set {
-            if (model != value) {
+            if (!key.Equals(value)) {
                 validated = false;
-                model = value;
-            }
-        }
-    }
-    public TextureType CurrentTexture {
-        get { return tex; }
-        set {
-            if (tex != value) {
-                validated = false;
-                tex = value;
+                key = value;
             }
         }
     }
@@ -43,6 +27,10 @@ public class Life : MonoBehaviour {
     #region unity
     private void OnEnable() {
         Validate();
+        LifeStat.Instance.Add(this);
+    }
+    private void OnDisable() {
+        LifeStat.Instance.Remove(this);
     }
     private void OnValidate() {
         validated = false;
@@ -65,8 +53,8 @@ public class Life : MonoBehaviour {
         var rend = GetComponent<Renderer>();
         rend.GetPropertyBlock(block);
 
-        block.SetTexture(PROP_ALPHA_TEX, LifeStrage.Instance[model]);
-        block.SetTexture(PROP_MAIN_TEX, LifeStrage.Instance[tex]);
+        block.SetTexture(PROP_ALPHA_TEX, LifeStrage.Instance[key.model]);
+        block.SetTexture(PROP_MAIN_TEX, LifeStrage.Instance[key.tex]);
 
         rend.SetPropertyBlock(block);
 

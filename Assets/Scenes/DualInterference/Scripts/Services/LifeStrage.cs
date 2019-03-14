@@ -8,18 +8,18 @@ public class LifeStrage : MonoBehaviour {
     public TaggedModel[] models;
     public TaggedTexture[] textures;
 
-    protected Dictionary<Life.ModelType, Texture> modelMap = new Dictionary<Life.ModelType, Texture>();
-    protected Dictionary<Life.TextureType, Texture> textureMap = new Dictionary<Life.TextureType, Texture>();
+    protected Dictionary<ModelType, Texture> modelMap = new Dictionary<ModelType, Texture>();
+    protected Dictionary<TextureType, Texture> textureMap = new Dictionary<TextureType, Texture>();
 
     #region interface
     public static LifeStrage Instance { get; protected set; }
 
-    public Texture this[Life.ModelType key] {
+    public Texture this[ModelType key] {
         get {
             return modelMap[key];
         }
     }
-    public Texture this[Life.TextureType key] {
+    public Texture this[TextureType key] {
         get {
             return textureMap[key];
         }
@@ -43,12 +43,12 @@ public class LifeStrage : MonoBehaviour {
     #region classes
     [System.Serializable]
     public class TaggedModel {
-        public Life.ModelType key;
+        public ModelType key;
         public Texture value;
     }
     [System.Serializable]
     public class TaggedTexture {
-        public Life.TextureType key;
+        public TextureType key;
         public Texture value;
     }
     #endregion
