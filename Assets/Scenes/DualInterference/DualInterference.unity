@@ -184,7 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   depth: 10
   radius: 3
-  noise: 0.05
+  noise: 0.3
   prefab: {fileID: 114993719868510346, guid: 19b19089efb4fe54bb27e319f50b248f, type: 2}
   cmain: {fileID: 534669904}
 --- !u!1 &534669902
