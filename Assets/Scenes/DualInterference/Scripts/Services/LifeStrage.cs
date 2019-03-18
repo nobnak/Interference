@@ -5,51 +5,41 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class LifeStrage : MonoBehaviour {
 
-    public TaggedModel[] models;
-    public TaggedTexture[] textures;
-
-    protected Dictionary<ModelType, Texture> modelMap = new Dictionary<ModelType, Texture>();
-    protected Dictionary<TextureType, Texture> textureMap = new Dictionary<TextureType, Texture>();
+    public Model[] models;
 
     #region interface
     public static LifeStrage Instance { get; protected set; }
 
-    public Texture this[ModelType key] {
-        get {
-            return modelMap[key];
-        }
+    public Model GetModel(int index) {
+        return models[index % models.Length];
     }
-    public Texture this[TextureType key] {
-        get {
-            return textureMap[key];
-        }
+    public Texture GetShape(int index) {
+        return GetModel(index).shape;
+    }
+    public Texture[] GetColors(int index) {
+        return GetModel(index).colors;
     }
     #endregion
 
     #region unity
     protected void OnEnable() {
+        if (Instance != null && Instance != this) {
+            gameObject.SetActive(false);
+            return;
+        }
         Instance = this;
-
-        modelMap.Clear();
-        textureMap.Clear();
-
-        foreach (var m in models)
-            modelMap[m.key] = m.value;
-        foreach (var t in textures)
-            textureMap[t.key] = t.value;
+    }
+    protected void OnDisable() {
+        if (Instance == this)
+            Instance = null;
     }
     #endregion
 
     #region classes
     [System.Serializable]
-    public class TaggedModel {
-        public ModelType key;
-        public Texture value;
-    }
-    [System.Serializable]
-    public class TaggedTexture {
-        public TextureType key;
-        public Texture value;
+    public class Model {
+        public Texture shape;
+        public Texture[] colors;
     }
     #endregion
 }

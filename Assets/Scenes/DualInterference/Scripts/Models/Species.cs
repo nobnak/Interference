@@ -4,33 +4,22 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public struct Species : IKeyTuple<ModelType, TextureType> {
+public struct Species {
 
-    public static readonly ModelType[] MODEL_TYPE_LIST =
-        ((ModelType[])System.Enum.GetValues(typeof(ModelType))).TakeWhile(v => v != ModelType.END).ToArray();
-    public static readonly TextureType[] TEXTURE_TYPE_LIST =
-        ((TextureType[])System.Enum.GetValues(typeof(TextureType))).TakeWhile(v => v != TextureType.END).ToArray();
+    public readonly int model;
+    public readonly int color;
 
-    public readonly ModelType model;
-    public readonly TextureType tex;
-
-    public Species(ModelType model, TextureType tex) {
+    public Species(int model, int color) {
         this.model = model;
-        this.tex = tex;
+        this.color = color;
     }
 
     #region interface
     public override int GetHashCode() {
-        return ((int)model) + ((int)tex * (int)TextureType.END);
+        return (model) + color * 71;
     }
-
-    #region IKeyTuple
-    public ModelType A {
-        get { return model; }
+    public override string ToString() {
+        return string.Format("{0}<model={1},color={2}>", this.GetType().Name, model, color);
     }
-    public TextureType B {
-        get { return tex; }
-    }
-    #endregion
     #endregion
 }

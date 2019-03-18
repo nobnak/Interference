@@ -7,18 +7,18 @@ public class Life : MonoBehaviour {
     public const string PROP_MAIN_TEX = "_MainTex";
     public const string PROP_ALPHA_TEX = "_AlphaTex";
 
-    protected Species key;
+    protected Species spec;
 
     protected bool validated = false;
     protected MaterialPropertyBlock block;
 
     #region interface
     public Species CurrentKey {
-        get { return key; }
+        get { return spec; }
         set {
-            if (!key.Equals(value)) {
+            if (!spec.Equals(value)) {
                 validated = false;
-                key = value;
+                spec = value;
             }
         }
     }
@@ -53,8 +53,9 @@ public class Life : MonoBehaviour {
         var rend = GetComponent<Renderer>();
         rend.GetPropertyBlock(block);
 
-        block.SetTexture(PROP_ALPHA_TEX, LifeStrage.Instance[key.model]);
-        block.SetTexture(PROP_MAIN_TEX, LifeStrage.Instance[key.tex]);
+        var model = LifeStrage.Instance.GetModel(spec.model);
+        block.SetTexture(PROP_ALPHA_TEX, model.shape);
+        block.SetTexture(PROP_MAIN_TEX, model.colors[spec.color]);
 
         rend.SetPropertyBlock(block);
 
