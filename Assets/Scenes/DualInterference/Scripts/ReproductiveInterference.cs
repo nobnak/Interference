@@ -1,4 +1,5 @@
-﻿using nobnak.Gist.MathAlgorithms;
+﻿using nobnak.Gist.Collection;
+using nobnak.Gist.MathAlgorithms;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,7 @@ public class ReproductiveInterference : MonoBehaviour {
         int modelIndex = -1;
         int colorIndex = -1;
         if (count > 0 && !Interfered()) {
-            var modelTabs = new Tabs<int, float>();
+            var modelTabs = new Tabulator<int, float>();
             foreach (var n in nears.Select(v => v.CurrentKey))
                 modelTabs[n.model]++;
 
@@ -65,7 +66,7 @@ public class ReproductiveInterference : MonoBehaviour {
             var colors = nears.Where(v => v.CurrentKey.model == modelIndex);
             var colorCount = colors.Count();
             if (colorCount > 0 && !Interfered()) {
-                var colorTabs = new Tabs<int, float>();
+                var colorTabs = new Tabulator<int, float>();
                 foreach (var n in colors.Select(v => v.CurrentKey))
                     colorTabs[n.color]++;
 
